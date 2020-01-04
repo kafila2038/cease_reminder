@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
+import 'package:toast/toast.dart';
 
 class AddStock extends StatefulWidget {
   AddStock({Key key}) : super(key: key);
@@ -141,6 +142,9 @@ class AddStockState extends State<AddStock> {
               ),
               color: Color(0xff0ccda3),
               onPressed: _buttonEnabled ? () {
+                Toast.show("Added", context,
+                duration: Toast.LENGTH_LONG,gravity: Toast.BOTTOM);
+                _reset();
                 setState(() {
                   _buttonEnabled =false;
                 });
@@ -148,6 +152,16 @@ class AddStockState extends State<AddStock> {
     );
   }
 
+
+void _reset(){
+  _company.text = '';
+  _item.text = '';
+  _qty.text = '';
+  setState(() {
+    _date = "Expiry Date";
+  });
+
+}
   String _validatefield(value) {
     if (value.isEmpty) {
       return 'Please enter valid Input';
