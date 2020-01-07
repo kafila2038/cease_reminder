@@ -146,6 +146,7 @@ class AddStockState extends State<AddStock> {
                 duration: Toast.LENGTH_LONG,gravity: Toast.BOTTOM);
                 _reset();
                 setState(() {
+                  _validate=true;
                   _buttonEnabled =false;
                 });
               } : null)),
@@ -162,7 +163,7 @@ void _reset(){
   });
 
 }
-  String _validatefield(value) {
+  String _validatefield(String value) {
     if (value.isEmpty) {
       return 'Please enter valid Input';
     }
