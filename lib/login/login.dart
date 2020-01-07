@@ -1,3 +1,4 @@
+import 'package:cease_reminder/screens/addstock.dart';
 import 'package:flutter/material.dart';
 
 
@@ -9,9 +10,13 @@ class LoginScreen extends StatefulWidget {
 
 class _LoginScreenState extends State<LoginScreen> {
 
+final  formkey=GlobalKey<FormState>();
+final  scaffoldkey=GlobalKey<ScaffoldState>();
+
  @override
   Widget build(BuildContext context) {
     return Scaffold(
+      key: scaffoldkey,
       body: Container(
         width: double.infinity,
         decoration: BoxDecoration(
@@ -33,8 +38,18 @@ class _LoginScreenState extends State<LoginScreen> {
             height: 50.0,),
             
             SizedBox(height: 50.0,),
-
-            TextFormField(
+            
+            Form(
+              key: formkey,
+              child: Column(
+                children: <Widget>[
+                  
+                  TextFormField(
+                    validator: (Value){
+                      if(Value.isEmpty){
+                        return "Please enter the username";
+                      }
+                    },
               decoration: InputDecoration(
                 icon: Icon(Icons.account_circle,color: Colors.white,),
                 hintText: "Username",
@@ -45,6 +60,10 @@ class _LoginScreenState extends State<LoginScreen> {
             SizedBox(height: 30.0,),
 
             TextFormField(
+              validator: (Value){
+                      if(Value.isEmpty){
+                        return "Please enter the password";
+                      }},
               decoration: InputDecoration(
                 icon: Icon(Icons.lock,color: Colors.white,),
                 hintText: "Password",
@@ -52,6 +71,11 @@ class _LoginScreenState extends State<LoginScreen> {
               ),
               obscureText: true,
             ),
+                ],
+              ),
+            ),
+
+            
 
            SizedBox(height: 50.0,),
 
@@ -73,7 +97,24 @@ class _LoginScreenState extends State<LoginScreen> {
         height: 50.0,
         minWidth: double.infinity,
         child: RaisedButton(
-          onPressed: (){},
+          onPressed: (){
+
+            if(formkey.currentState.validate()){
+              scaffoldkey.currentState.showSnackBar(SnackBar(
+                content: Text("Form validated succesfully"),
+              ));
+
+              Navigator.pushReplacement(context, MaterialPageRoute(
+                builder: (context) => AddStock()
+              ));
+
+            }
+            else{
+              scaffoldkey.currentState.showSnackBar(SnackBar(
+                content: Text("Error in form"),
+              ));
+            }
+          },
           child: Text("LOGIN",style: TextStyle(color: Colors.white),),
         ),),
            ),
