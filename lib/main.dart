@@ -1,7 +1,7 @@
+import 'package:cease_reminder/login/login.dart';
 import 'package:flutter/material.dart';
 
-import 'screens/homepage.dart';
-
+import 'login/login.dart';
 
 void main() => runApp(MyApp());
 
@@ -13,7 +13,7 @@ class MyApp extends StatelessWidget {
       theme: ThemeData(
         primarySwatch: Colors.deepPurple,
       ),
-      home: HomePage(),
+      home: LoginScreen(),
     );
   }
 }
