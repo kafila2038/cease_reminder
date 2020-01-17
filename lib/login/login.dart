@@ -1,6 +1,8 @@
 import 'package:cease_reminder/screens/homepage.dart';
+import 'package:cease_reminder/screens/homepage1.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/rendering.dart';
+import 'package:toast/toast.dart';
 
 class LoginScreen extends StatefulWidget {
   LoginScreen({Key key}) : super(key: key);
@@ -11,6 +13,10 @@ class LoginScreen extends StatefulWidget {
 class _LoginScreenState extends State<LoginScreen> {
   final formkey = GlobalKey<FormState>();
   final scaffoldkey = GlobalKey<ScaffoldState>();
+
+TextEditingController userid = TextEditingController();
+TextEditingController password = TextEditingController();
+
 
   @override
   Widget build(BuildContext context) {
@@ -49,6 +55,7 @@ class _LoginScreenState extends State<LoginScreen> {
                 child: Column(
                   children: <Widget>[
                     TextFormField(
+                      controller: userid,
                       validator: (Value) {
                         if (Value.isEmpty) {
                           return "Please enter the username";
@@ -67,6 +74,7 @@ class _LoginScreenState extends State<LoginScreen> {
                       height: 30.0,
                     ),
                     TextFormField(
+                      controller: password,
                       validator: (Value) {
                         if (Value.isEmpty) {
                           return "Please enter the password";
@@ -94,15 +102,22 @@ class _LoginScreenState extends State<LoginScreen> {
                 child: RaisedButton(
                   onPressed: () {
                     if (formkey.currentState.validate()) {
-                      scaffoldkey.currentState.showSnackBar(SnackBar(
-                        content: Text("Form validated succesfully"),
-                      ));
-                      Navigator.pushReplacement(context,
+                      if(userid.text == 'admin' && password.text == 'admin123'){
+                          Navigator.pushReplacement(context,
                           MaterialPageRoute(builder: (context) => HomePage()));
+                      }
+                      else if(userid.text == 'user' && password.text == 'user123')
+                      {
+                        Navigator.pushReplacement(context,
+                          MaterialPageRoute(builder: (context) => HomePage1()));
+                      }
+                      else{
+                         Toast.show("Enter valid username or password", context,
+                duration: Toast.LENGTH_LONG,gravity: Toast.BOTTOM);
+                      }
                     } else {
-                      scaffoldkey.currentState.showSnackBar(SnackBar(
-                        content: Text("Error in form"),
-                      ));
+                     Toast.show("Error", context,
+                duration: Toast.LENGTH_LONG,gravity: Toast.BOTTOM);
                     }
                   },
                   child: Text(

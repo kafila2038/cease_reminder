@@ -144,11 +144,11 @@ class AddStockState extends State<AddStock> {
               onPressed: _buttonEnabled ? () {
                 Toast.show("Added", context,
                 duration: Toast.LENGTH_LONG,gravity: Toast.BOTTOM);
-                _reset();
                 setState(() {
                   _validate=true;
                   _buttonEnabled =false;
                 });
+                 _reset();
               } : null)),
     );
   }
@@ -159,6 +159,7 @@ void _reset(){
   _item.text = '';
   _qty.text = '';
   setState(() {
+    _validate=false;
     _date = "Expiry Date";
   });
 
