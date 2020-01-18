@@ -102,11 +102,11 @@ TextEditingController password = TextEditingController();
                 child: RaisedButton(
                   onPressed: () {
                     if (formkey.currentState.validate()) {
-                      if(userid.text == 'admin' && password.text == 'admin123'){
+                      if(userid.text == 'admin' && password.text == 'Admin@123'){
                           Navigator.pushReplacement(context,
                           MaterialPageRoute(builder: (context) => HomePage()));
                       }
-                      else if(userid.text == 'user' && password.text == 'user123')
+                      else if(userid.text == 'user' && password.text == 'User@123')
                       {
                         Navigator.pushReplacement(context,
                           MaterialPageRoute(builder: (context) => HomePage1()));

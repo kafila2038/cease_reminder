@@ -7,7 +7,7 @@ class HomePage1 extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: AppBar(title: Text("Cease Remainder",
+      appBar: AppBar(title: Text("CEASE REMINDER",
       style: TextStyle(color: Colors.white),),
       ),
 
@@ -28,7 +28,7 @@ class HomePage1 extends StatelessWidget {
                       "Add Stock",
                       textScaleFactor: 1.6,
                     ),
-                    color: Colors.blueAccent,
+                    color: Colors.deepOrangeAccent,
                     onPressed: () async {
                       Navigator.of(context).push(createRoute(AddStock()));
                     },
