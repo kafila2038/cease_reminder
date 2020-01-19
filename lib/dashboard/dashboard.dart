@@ -39,7 +39,7 @@ class _DashBoardState extends State<DashBoard> {
         return ListView.builder(
           itemCount: attendenceData.length,
           itemBuilder: (_, index) {
-            final itemTask = attendenceData[attendenceData.length - index - 1];
+            final itemTask = attendenceData[index];
             return ListTile(
               title: Text(itemTask.company),
               onTap: () {

@@ -20,8 +20,8 @@ class AppDatabase extends _$AppDatabase {
   @override
   int get schemaVersion => 1;
 
-  Stream<List<Reminder>> getAllData() =>
-      select(reminders).watch();
+  Stream<List<Reminder>> getAllData(String company) =>
+      (select(reminders)..where((u)=>u.company.like(company))).watch();
   Stream<List<Reminder>> watchAllData() =>
       select(reminders).watch();
 

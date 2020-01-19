@@ -29,7 +29,7 @@ class _DashBordViewState extends State<DashBordView> {
   StreamBuilder<List<Reminder>> _buildList(BuildContext context) {
     final database = Provider.of<AppDatabase>(context);
     return StreamBuilder(
-      stream: database.watchAllData(),
+      stream: database.getAllData(widget.title),
       builder: (context, AsyncSnapshot<List<Reminder>> snapshot) {
         final attendenceData = snapshot.data ?? List();
         return ListView.builder(
