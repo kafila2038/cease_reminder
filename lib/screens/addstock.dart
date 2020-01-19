@@ -1,7 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
 import 'package:toast/toast.dart';
-
+import 'package:provider/provider.dart';
+import 'package:cease_reminder/database/database.dart';
 class AddStock extends StatefulWidget {
   AddStock({Key key}) : super(key: key);
   @override
@@ -162,9 +163,17 @@ class AddStockState extends State<AddStock> {
                         _validate = true;
                         _buttonEnabled = false;
                       });
+                      if (_formkey.currentState.validate()) {
+                        final database = Provider.of<AppDatabase>(context, listen: false);
+                      final data = Reminder(
+                        company: _company.text,
+                        item: _item.text,
+                        exp_date: _date.toString(),
+                        qty: _qty.text
+                      );
+                      database.insertTask(data);
                       Toast.show("Added", context,
                           duration: Toast.LENGTH_LONG, gravity: Toast.BOTTOM);
-                      if (_formkey.currentState.validate()) {
                         setState(() {
                           _reset();
                         });
@@ -181,6 +190,7 @@ class AddStockState extends State<AddStock> {
     setState(() {
       _validate = false;
       _date = "Expiry Date";
+      _buttonEnabled = true;
     });
   }
 

@@ -1,3 +1,4 @@
+import 'package:cease_reminder/dashboard/dashboard.dart';
 import 'package:cease_reminder/screens/addstock.dart';
 import 'package:flutter/material.dart';
 
@@ -52,6 +53,7 @@ class HomePage extends StatelessWidget {
                       ),
                       color: Colors.red,
                       onPressed: () async {
+                        Navigator.of(context).push(createRoute(DashBoard()));
                       },
                     )),
               ]),
