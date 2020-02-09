@@ -282,3 +282,11 @@ abstract class _$AppDatabase extends GeneratedDatabase {
   @override
   List<TableInfo> get allTables => [reminders];
 }
+
+// **************************************************************************
+// DaoGenerator
+// **************************************************************************
+
+mixin _$ReminderDaoMixin on DatabaseAccessor<AppDatabase> {
+  $RemindersTable get reminders => db.reminders;
+}
