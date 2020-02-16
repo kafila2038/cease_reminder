@@ -1,6 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
-
+import 'package:toast/toast.dart';
+import 'package:provider/provider.dart';
+import 'package:cease_reminder/database/database.dart';
 class AddStock extends StatefulWidget {
   AddStock({Key key}) : super(key: key);
   @override
@@ -47,87 +49,102 @@ class AddStockState extends State<AddStock> {
           key: _formkey,
           autovalidate: _validate,
           child: Center(
-              child: ListView(
-                padding: EdgeInsets.all(10.0),
+              child: ListView(padding: EdgeInsets.all(10.0), children: <Widget>[
+            SizedBox(
+              height: 150.0,
+            ),
+            Padding(
+              padding: EdgeInsets.only(top: 5.0, bottom: 5.0),
+              child: TextFormField(
+                keyboardType: TextInputType.text,
+                style: textStyle,
+                controller: _company,
+                validator: _validatefield,
+                decoration: InputDecoration(
+                    labelText: "Company",
+                    labelStyle: textStyle,
+                    border: OutlineInputBorder(
+                        borderRadius: BorderRadius.circular(5.0))),
+                onChanged: (value) {
+                  setState(() {
+                    _buttonEnabled = true;
+                  });
+                },
+              ),
+            ),
+            Padding(
+                padding: EdgeInsets.only(top: 5.0, bottom: 5.0),
+                child: TextFormField(
+                  style: textStyle,
+                  keyboardType: TextInputType.text,
+                  controller: _item,
+                  validator: _validatefield,
+                  decoration: InputDecoration(
+                      labelText: "Item",
+                      labelStyle: textStyle,
+                      border: OutlineInputBorder(
+                          borderRadius: BorderRadius.circular(5.0))),
+                  onChanged: (value) {
+                    setState(() {
+                      _buttonEnabled = true;
+                    });
+                  },
+                )),
+            Padding(
+              padding: EdgeInsets.only(top: 5.0, bottom: 5.0),
+              child: Row(
+                mainAxisAlignment: MainAxisAlignment.center,
                 children: <Widget>[
-                  SizedBox(height: 150.0,),
-                Padding(
-                  padding: EdgeInsets.only(top: 5.0, bottom: 5.0),
-                  child: TextFormField(
-                    keyboardType: TextInputType.text,
-                    style: textStyle,
-                    controller: _company,
-                    validator: _validatefield,
-                    decoration: InputDecoration(
-                        labelText: "Company",
-                        labelStyle: textStyle,
-                        border: OutlineInputBorder(
-                            borderRadius: BorderRadius.circular(5.0))),
+                  Container(
+                    height: 60.0,
+                    width: 150.0,
+                    decoration: BoxDecoration(
+                      border: Border.all(color: Colors.grey),
+                      borderRadius: BorderRadius.circular(10.0),
+                    ),
+                    child: RaisedButton(
+                      onPressed: () {
+                        _selectDate(context, "selectedDate");
+                      },
+                      child: Text(_date),
+                      elevation: 0,
+                      color: Colors.transparent,
+                    ),
                   ),
-                ),
-                Padding(
-                    padding: EdgeInsets.only(top: 5.0, bottom: 5.0),
-                    child: TextFormField(
-                      style: textStyle,
-                      keyboardType: TextInputType.text,
-                      controller: _item,
-                      validator: _validatefield,
-                      decoration: InputDecoration(
-                          labelText: "Item",
-                          labelStyle: textStyle,
-                          border: OutlineInputBorder(
-                              borderRadius: BorderRadius.circular(5.0))),
-                    )),
-                Padding(
-                  padding: EdgeInsets.only(top: 5.0, bottom: 5.0),
-                  child: Row(
-                    mainAxisAlignment: MainAxisAlignment.center,
-                    children: <Widget>[
-                      Container(
-                        height: 60.0,
-                        width: 150.0,
-                        decoration: BoxDecoration(
-                          border: Border.all(color: Colors.grey),
-                          borderRadius: BorderRadius.circular(10.0),
-                        ),
-                        child: RaisedButton(
-                          onPressed: () {
-                            _selectDate(context, "selectedDate");
+                  SizedBox(
+                    width: 20.0,
+                  ),
+                  Container(
+                    height: 60.0,
+                    width: 160.0,
+                    child: Row(
+                      children: <Widget>[
+                        Expanded(
+                            child: TextFormField(
+                          keyboardType: TextInputType.number,
+                          style: textStyle,
+                          controller: _qty,
+                          validator: _validatefield,
+                          decoration: InputDecoration(
+                              labelText: "Quantity",
+                              labelStyle: textStyle,
+                              border: OutlineInputBorder(
+                                  borderRadius: BorderRadius.circular(10.0))),
+                          onChanged: (value) {
+                            setState(() {
+                              _buttonEnabled = true;
+                            });
                           },
-                          child: Text(
-                              _date),
-                          elevation: 0,
-                          color: Colors.transparent,
-                        ),
-                      ),
-                      SizedBox(width: 20.0,),
-                      Container(
-                        height: 60.0,
-                        width: 200.0,
-                        child: Row(
-                          children: <Widget>[
-                            Expanded(
-                                child: TextFormField(
-                              keyboardType: TextInputType.number,
-                              style: textStyle,
-                              controller: _qty,
-                              validator: _validatefield,
-                              decoration: InputDecoration(
-                                  labelText: "Quantity",
-                                  labelStyle: textStyle,
-                                  border: OutlineInputBorder(
-                                      borderRadius:
-                                          BorderRadius.circular(10.0))),
-                            )),
-                          ],
-                        ),
-                      ),
-                    ],
+                        )),
+                      ],
+                    ),
                   ),
-                ),
-              ]))),
+                ],
+              ),
+            ),
+          ]))),
       bottomNavigationBar: Container(
-        height: 55.0,
+          height: 55.0,
           color: _buttonEnabled ? Color(0xff0ccda3) : Colors.grey,
           child: RaisedButton(
               elevation: 0,
@@ -140,18 +157,46 @@ class AddStockState extends State<AddStock> {
                 style: TextStyle(color: Colors.black),
               ),
               color: Color(0xff0ccda3),
-              onPressed: _buttonEnabled ? () {
-                setState(() {
-                  _buttonEnabled =false;
-                });
-              } : null)),
+              onPressed: _buttonEnabled
+                  ? () {
+                      setState(() {
+                        _validate = true;
+                        _buttonEnabled = false;
+                      });
+                      if (_formkey.currentState.validate()) {
+                        final database = Provider.of<AppDatabase>(context, listen: false);
+                      final data = Reminder(
+                        company: _company.text,
+                        item: _item.text,
+                        exp_date: _date.toString(),
+                        qty: _qty.text
+                      );
+                      database.insertTask(data);
+                      Toast.show("Added", context,
+                          duration: Toast.LENGTH_LONG, gravity: Toast.BOTTOM);
+                        setState(() {
+                          _reset();
+                        });
+                      }
+                    }
+                  : null)),
     );
   }
 
-  String _validatefield(value) {
+  void _reset() {
+    _company.text = '';
+    _item.text = '';
+    _qty.text = '';
+    setState(() {
+      _validate = false;
+      _date = "Expiry Date";
+      _buttonEnabled = true;
+    });
+  }
+
+  String _validatefield(String value) {
     if (value.isEmpty) {
       return 'Please enter valid Input';
     }
-    return "";
   }
 }

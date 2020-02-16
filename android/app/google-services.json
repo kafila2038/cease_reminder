@@ -1,0 +1,40 @@
+{
+  "project_info": {
+    "project_number": "25839686250",
+    "firebase_url": "https://cease-reminder.firebaseio.com",
+    "project_id": "cease-reminder",
+    "storage_bucket": "cease-reminder.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:25839686250:android:12935e4a0372cbfcf53013",
+        "android_client_info": {
+          "package_name": "com.kafila.cease_reminder"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "25839686250-q831gtqbo062tsk57juns50sgmg16tnc.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyAD6QZ4cBDTmD0MsMkUbc3PAtdsOZ7PKx8"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "25839686250-q831gtqbo062tsk57juns50sgmg16tnc.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
