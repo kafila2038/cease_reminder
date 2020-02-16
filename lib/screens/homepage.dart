@@ -1,18 +1,94 @@
+import 'dart:async';
+import 'package:intl/intl.dart';
+import 'package:provider/provider.dart';
+import 'package:cease_reminder/database/database.dart';
 import 'package:cease_reminder/dashboard/dashboard.dart';
 import 'package:cease_reminder/screens/addstock.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_local_notifications/flutter_local_notifications.dart';
 
-class HomePage extends StatelessWidget {
-  const HomePage({Key key}) : super(key: key);
+class HomePage extends StatefulWidget {
+  HomePage({Key key}) : super(key: key);
+
+  @override
+  _HomePageState createState() => _HomePageState();
+}
+
+class _HomePageState extends State<HomePage> {
+  FlutterLocalNotificationsPlugin flutterLocalNotificationsPlugin;
+  String payld;
+
+  @override
+  void initState() {
+    super.initState();
+    flutterLocalNotificationsPlugin = new FlutterLocalNotificationsPlugin();
+    var android = new AndroidInitializationSettings('@mipmap/ic_launcher');
+    var iOS = new IOSInitializationSettings();
+    var initSetttings = new InitializationSettings(android, iOS);
+    flutterLocalNotificationsPlugin.initialize(initSetttings,
+        onSelectNotification: onSelectNotification);
+    _checkExpiry();
+    Timer.periodic(new Duration(minutes: 5), (timer) {
+      _checkExpiry();
+    });
+  }
+
+  Future onSelectNotification(String payload) async {
+    if (payload != null) {
+      debugPrint('notification payload: ' + payload);
+      await showDialog(
+      context: context,
+      builder: (_) => new AlertDialog(
+        title: new Text('Expiry alert'),
+        content: new Text('$payload'),
+      ),
+    );
+    }
+  }
+
+  showNotification() async {
+    var android = new AndroidNotificationDetails(
+        'channel id', 'channel NAME', 'CHANNEL DESCRIPTION',
+        priority: Priority.High, importance: Importance.Max);
+    var iOS = new IOSNotificationDetails();
+    var platform = new NotificationDetails(android, iOS);
+    await flutterLocalNotificationsPlugin
+        .show(0, 'Expiry alert', 'test', platform, payload: payld);
+  }
+
+  void _checkExpiry() async {
+    final database = Provider.of<AppDatabase>(context, listen: false);
+    var datas = await database.watchAllData();
+    String pay = "";
+    var today = DateFormat("yyyy-MM-dd").format(DateTime.now());
+    print(today);
+    for (var data in datas) {
+      var date = DateFormat("yyyy-MM-dd")
+          .format(DateFormat("dd-MM-yyyy").parse(data.exp_date));
+          print(date);
+          print(DateTime.parse(date).difference(DateTime.parse(today)).inDays);
+      if(DateTime.parse(date).difference(DateTime.parse(today)).inDays < 10){
+        pay = pay + data.item;
+         pay = pay + '\n';
+        print(data.item);
+      }
+    }
+    setState(() {
+      payld = pay;
+    });
+    showNotification();
+  }
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: AppBar(title: Text("CEASE REMINDER",
-      style: TextStyle(color: Colors.white),),
-      ),
-
-    body: Center(
+        appBar: AppBar(
+          title: Text(
+            "CEASE REMINDER",
+            style: TextStyle(color: Colors.white),
+          ),
+        ),
+        body: Center(
           child: Column(
               mainAxisAlignment: MainAxisAlignment.center,
               children: <Widget>[
@@ -57,10 +133,10 @@ class HomePage extends StatelessWidget {
                       },
                     )),
               ]),
-    ));
+        ));
   }
 
-   Route createRoute(Widget page) {
+  Route createRoute(Widget page) {
     return PageRouteBuilder(
       pageBuilder: (context, animation, secondaryAnimation) => page,
       transitionDuration: Duration(milliseconds: 400),

@@ -30,20 +30,20 @@ class _DashBoardState extends State<DashBoard> {
     );
   }
 
-  StreamBuilder<List<Reminder>> _buildList(BuildContext context) {
+  StreamBuilder<List<String>> _buildList(BuildContext context) {
     final database = Provider.of<AppDatabase>(context);
     return StreamBuilder(
-      stream: database.watchAllData(),
-      builder: (context, AsyncSnapshot<List<Reminder>> snapshot) {
+      stream: database.watchDistinctCompany(),
+      builder: (context, AsyncSnapshot<List<String>> snapshot) {
         final attendenceData = snapshot.data ?? List();
         return ListView.builder(
           itemCount: attendenceData.length,
           itemBuilder: (_, index) {
             final itemTask = attendenceData[index];
             return ListTile(
-              title: Text(itemTask.company),
+              title: Text(itemTask),
               onTap: () {
-                Navigator.of(context).push(createRoute(DashBordView(title: itemTask.company,)));
+                Navigator.of(context).push(createRoute(DashBordView(title: itemTask,)));
               },
             );
           },

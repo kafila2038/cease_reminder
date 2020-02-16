@@ -31,11 +31,11 @@ class _DashBordViewState extends State<DashBordView> {
     return StreamBuilder(
       stream: database.getAllData(widget.title),
       builder: (context, AsyncSnapshot<List<Reminder>> snapshot) {
-        final attendenceData = snapshot.data ?? List();
+        final reminderData = snapshot.data ?? List();
         return ListView.builder(
-          itemCount: attendenceData.length,
+          itemCount: reminderData.length,
           itemBuilder: (_, index) {
-            final itemTask = attendenceData[attendenceData.length - index - 1];
+            final itemTask = reminderData[reminderData.length - index - 1];
             return Slidable(
               actionPane: SlidableDrawerActionPane(),
               secondaryActions: <Widget>[

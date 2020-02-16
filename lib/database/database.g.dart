@@ -279,14 +279,20 @@ abstract class _$AppDatabase extends GeneratedDatabase {
   _$AppDatabase(QueryExecutor e) : super(SqlTypeSystem.defaultInstance, e);
   $RemindersTable _reminders;
   $RemindersTable get reminders => _reminders ??= $RemindersTable(this);
+  Selectable<String> distinctCompanyQuery() {
+    return customSelectQuery('SELECT DISTINCT company FROM reminders;',
+            variables: [], readsFrom: {reminders})
+        .map((QueryRow row) => row.readString('company'));
+  }
+
+  Future<List<String>> distinctCompany() {
+    return distinctCompanyQuery().get();
+  }
+
+  Stream<List<String>> watchDistinctCompany() {
+    return distinctCompanyQuery().watch();
+  }
+
   @override
   List<TableInfo> get allTables => [reminders];
-}
-
-// **************************************************************************
-// DaoGenerator
-// **************************************************************************
-
-mixin _$ReminderDaoMixin on DatabaseAccessor<AppDatabase> {
-  $RemindersTable get reminders => db.reminders;
 }
