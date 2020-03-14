@@ -4,10 +4,10 @@ part 'database.g.dart';
 
 class Reminders extends Table {
   IntColumn get id => integer().autoIncrement()();
-  TextColumn get company => text().withLength(min: 1, max: 10)();
-  TextColumn get item => text().withLength(min: 1, max: 25)();
-  TextColumn get exp_date => text().withLength(min: 1, max: 25)();
-  TextColumn get qty => text().withLength(min: 1, max: 25)();
+  TextColumn get company => text().withLength(min: 1, max: 90)();
+  TextColumn get item => text().withLength(min: 1, max: 90)();
+  TextColumn get exp_date => text().withLength(min: 1, max: 15)();
+  TextColumn get qty => text().withLength(min: 1, max: 5)();
 }
 
 @UseMoor(tables: [Reminders],

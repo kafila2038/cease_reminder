@@ -169,7 +169,7 @@ class AddStockState extends State<AddStock> {
                         company: _company.text,
                         item: _item.text,
                         exp_date: _date.toString(),
-                        qty: _qty.text
+                        qty: _qty.text, id: null
                       );
                       database.insertTask(data);
                       Toast.show("Added", context,

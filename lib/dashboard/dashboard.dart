@@ -35,11 +35,11 @@ class _DashBoardState extends State<DashBoard> {
     return StreamBuilder(
       stream: database.watchDistinctCompany(),
       builder: (context, AsyncSnapshot<List<String>> snapshot) {
-        final attendenceData = snapshot.data ?? List();
+        final ReminderData = snapshot.data ?? List();
         return ListView.builder(
-          itemCount: attendenceData.length,
+          itemCount: ReminderData.length,
           itemBuilder: (_, index) {
-            final itemTask = attendenceData[index];
+            final itemTask = ReminderData[index];
             return ListTile(
               title: Text(itemTask),
               onTap: () {

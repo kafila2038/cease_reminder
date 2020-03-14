@@ -28,7 +28,7 @@ class _HomePageState extends State<HomePage> {
     flutterLocalNotificationsPlugin.initialize(initSetttings,
         onSelectNotification: onSelectNotification);
     _checkExpiry();
-    Timer.periodic(new Duration(minutes: 5), (timer) {
+    Timer.periodic(new Duration(minutes: 10), (timer) {
       _checkExpiry();
     });
   }
@@ -53,7 +53,7 @@ class _HomePageState extends State<HomePage> {
     var iOS = new IOSNotificationDetails();
     var platform = new NotificationDetails(android, iOS);
     await flutterLocalNotificationsPlugin
-        .show(0, 'Expiry alert', 'test', platform, payload: payld);
+        .show(0, 'Expiry alert', 'show', platform, payload: payld);
   }
 
   void _checkExpiry() async {

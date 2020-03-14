@@ -167,7 +167,7 @@ class $RemindersTable extends Reminders
   GeneratedTextColumn get company => _company ??= _constructCompany();
   GeneratedTextColumn _constructCompany() {
     return GeneratedTextColumn('company', $tableName, false,
-        minTextLength: 1, maxTextLength: 10);
+        minTextLength: 1, maxTextLength: 90);
   }
 
   final VerificationMeta _itemMeta = const VerificationMeta('item');
@@ -176,7 +176,7 @@ class $RemindersTable extends Reminders
   GeneratedTextColumn get item => _item ??= _constructItem();
   GeneratedTextColumn _constructItem() {
     return GeneratedTextColumn('item', $tableName, false,
-        minTextLength: 1, maxTextLength: 25);
+        minTextLength: 1, maxTextLength: 90);
   }
 
   final VerificationMeta _exp_dateMeta = const VerificationMeta('exp_date');
@@ -185,7 +185,7 @@ class $RemindersTable extends Reminders
   GeneratedTextColumn get exp_date => _exp_date ??= _constructExpDate();
   GeneratedTextColumn _constructExpDate() {
     return GeneratedTextColumn('exp_date', $tableName, false,
-        minTextLength: 1, maxTextLength: 25);
+        minTextLength: 1, maxTextLength: 15);
   }
 
   final VerificationMeta _qtyMeta = const VerificationMeta('qty');
@@ -194,7 +194,7 @@ class $RemindersTable extends Reminders
   GeneratedTextColumn get qty => _qty ??= _constructQty();
   GeneratedTextColumn _constructQty() {
     return GeneratedTextColumn('qty', $tableName, false,
-        minTextLength: 1, maxTextLength: 25);
+        minTextLength: 1, maxTextLength: 10);
   }
 
   @override
